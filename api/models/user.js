@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-const artistSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+const userSchema = mongoose.Schema({
     fName: {
         type: String, 
         required: true
