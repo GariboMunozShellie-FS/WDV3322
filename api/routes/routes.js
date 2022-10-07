@@ -10,12 +10,14 @@ router.post('/signup', (req, res) => {
     })
     .exec()
     .then(result => {
-        console.log(result);
-        if(result.length > 0){
-            return res.status(406).json({
-                message: "Email is taken, please use a new email address"
-            })
+        console.log('console.log' + result);
+        
+        if (result.email === req.body.email){
+            return res.status(500).json({
+                    message: 'Email is already taken',
+                })
         }
+
         bcrypt.hash(req.body.password, 10,(err, hash) => {
             if (err){
                 res.status(500).json({
@@ -31,7 +33,7 @@ router.post('/signup', (req, res) => {
                     state:req.body.state,
                     zip:req.body.zip,
                     email: req.body.email,
-                    password: req.body.password
+                    password: hash
                 })
                 saveUser.save()
                 .then(result => {
@@ -65,7 +67,6 @@ router.post('/signup', (req, res) => {
             }
         })
     })
-
     .catch(err => {
         console.error(err);
         res.status(500).json({
@@ -82,8 +83,8 @@ router.post('/login', (req, res) => {
     })
     .exec()
     .then(result => {
-        console.log(result, req.body.email);
-        bcrypt.compare(req.body.password, User.password,(err, result) => {
+        console.log(result.password, req.body.password);
+        bcrypt.compare(req.body.password, result.password,(err, result) => {
             if (err){
                 res.status(501).json({
                     message: err.message,
