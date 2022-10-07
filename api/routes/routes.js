@@ -10,9 +10,9 @@ router.post('/signup', (req, res) => {
     })
     .exec()
     .then(result => {
-        console.log('console.log' + result);
+        console.log("console log", result);
         
-        if (result.email === req.body.email){
+        if (result){
             return res.status(500).json({
                     message: 'Email is already taken',
                 })
@@ -83,7 +83,7 @@ router.post('/login', (req, res) => {
     })
     .exec()
     .then(result => {
-        console.log(result.password, req.body.password);
+        console.log("Console" + result + "log");
         bcrypt.compare(req.body.password, result.password,(err, result) => {
             if (err){
                 res.status(501).json({
