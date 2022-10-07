@@ -11,13 +11,11 @@ router.post('/signup', (req, res) => {
     .exec()
     .then(result => {
         console.log("console log", result);
-        
-        if (result){
-            return res.status(500).json({
-                    message: 'Email is already taken',
+            if (result){
+                return res.status(500).json({
+                    message: 'Email is already taken. Please use a new email for your account',
                 })
-        }
-
+            }
         bcrypt.hash(req.body.password, 10,(err, hash) => {
             if (err){
                 res.status(500).json({
