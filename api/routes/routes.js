@@ -34,8 +34,8 @@ router.post('/signup', (req, res) => {
                     email: req.body.email,
                     password: hash
                 })
-                newUser.save()
-                //saveUser(newUser)
+                //newUser.save()
+                saveUser(newUser)
                 .then(result => {
                     console.log("console.Log", result);
                     res.status(200).json({
@@ -78,7 +78,7 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    User.findUser(req.body.email)
+    findUser(req.body.email)
     .then(result => {
         console.log("Console" + result + "log");
         bcrypt.compare(req.body.password, result.password,(err, result) => {
@@ -105,7 +105,7 @@ router.post('/login', (req, res) => {
         console.error(err);
         res.status(500).json({
             error: {
-                message: "Something went wrong, please try again"
+                message: "Something has went wrong, please try again"
             }
         })
     })

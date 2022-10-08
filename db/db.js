@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { findOne } = require("../api/models/user")
+const { User, findOne } = require("../api/models/user")
 
 const connect = async () => {
     await mongoose.connect()
@@ -7,10 +7,12 @@ const connect = async () => {
 
 const findUser = async (obj) => {
     await findOne(obj).exec()
+    return obj
 }
 
 const saveUser = async (user) => {
     await user.save()
+    return user
 }
 
 const disconnect = async () => {
