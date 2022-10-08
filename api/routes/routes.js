@@ -1,7 +1,8 @@
 const express = require("express");
 const User = require("../models/user")
 const router = express.Router();
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { findUser, saveUser } = require("../../db/db");
 
 
 router.post('/signup', (req, res) => {
@@ -10,7 +11,7 @@ router.post('/signup', (req, res) => {
     })
     .exec()
     .then(result => {
-        console.log("console log", result);
+        //console.log("console log", result);
             if (result){
                 return res.status(500).json({
                     message: 'Email is already taken. Please use a new email for your account',
@@ -23,7 +24,7 @@ router.post('/signup', (req, res) => {
                 })
             }
             else{
-                const saveUser = new User({
+                const newUser = new User({
                     fName:req.body.fName,
                     lName:req.body.lName,
                     address:req.body.address,
@@ -33,9 +34,10 @@ router.post('/signup', (req, res) => {
                     email: req.body.email,
                     password: hash
                 })
-                saveUser.save()
+                newUser.save()
+                //saveUser(newUser)
                 .then(result => {
-                    console.log(result);
+                    console.log("console.Log", result);
                     res.status(200).json({
                         message: "New User has been added",
                         User:{
@@ -76,17 +78,13 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    User.findOne({
-        email: req.body.email,
-    })
-    .exec()
+    User.findUser(req.body.email)
     .then(result => {
         console.log("Console" + result + "log");
         bcrypt.compare(req.body.password, result.password,(err, result) => {
             if (err){
                 res.status(501).json({
                     message: err.message,
-                    Error: 'You are getting this error',
                 })
             }
             if (result){
