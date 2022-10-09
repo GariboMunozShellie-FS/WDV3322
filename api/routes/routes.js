@@ -78,7 +78,10 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    findUser(req.body.email)
+    User.findOne({
+        email: req.body.email,
+    })
+    .exec()
     .then(result => {
         console.log("Console" + result + "log");
         bcrypt.compare(req.body.password, result.password,(err, result) => {
@@ -118,5 +121,6 @@ router.get('/profile', (req, res) => {
         message: "/profile - GET",
     })
 })
+
 
 module.exports = router

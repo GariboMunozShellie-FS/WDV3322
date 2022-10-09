@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const User = require("../api/models/user")
-const { connect, findUser, saveUser, disconnect } = require("../../db/db");
+const {connect, findUser, saveUser,  disconnect} = require("../db/db");
+jest.mock('../db/db')
 
-beforeEach( async () => {
-    connect()
+beforeAll(async () => {      
+    await connect()
 })
 
-describe("Receive random objects Test", () => {
+describe("New User", () => {
     test('Save User', async () => {
         const user = new User({
             fName: "Arama",
@@ -18,19 +19,19 @@ describe("Receive random objects Test", () => {
             email: "amaramunoz@gmail.com",
             password: "password"
         })
-
-        expect(result.fName).toEqual("Arama");
-        expect(result.lName).toEqual("Munoz");
+        saveUser(user)
+        expect(user.fName).toEqual("Arama");
+        expect(user.lName).toEqual("Munoz");
     });
-
-    test('I should receive ramdom categories', async () => {
-        
-        
-        expect(result.fName).toEqual("Arama");
-        expect(result.lName).toEqual("Munoz");
-    })
+    
+    test('Find User', async () => {
+        findUser({email : "amaramunoz@gmail.com"})
+        expect(User.fName).toEqual("Arama");
+        expect(User.lName).toEqual("Munoz");
+    });
+    
 })
 
-afterEach( async () => {
-    disconnect()
+afterAll( async () => {
+    await disconnect()
 })
