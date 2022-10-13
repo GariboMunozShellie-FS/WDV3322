@@ -2,7 +2,10 @@ const express = require("express");
 const User = require("../models/user")
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require("dotenv").config();
 const { findUser, saveUser } = require("../../db/db");
+const checkAuth = require("../../auth/checkAuth");
 
 
 router.post('/signup', (req, res) => {
@@ -78,23 +81,30 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+//----------------------------------------
     User.findOne({
-        email: req.body.email,
+        email: email,
     })
     .exec()
     .then(result => {
-        console.log("Console" + result + "log");
-        bcrypt.compare(req.body.password, result.password,(err, result) => {
+        console.log("Console" , result.fName , "log");
+        bcrypt.compare(password, result.password,(err, result) => {
             if (err){
                 res.status(501).json({
                     message: err.message,
                 })
             }
             if (result){
+                const token = jwt.sign(
+                    {email: email, password: password}, 
+                    process.env.jwt_key);
                 res.status(200).json({
-                        message: 'Authorization Successful',
-                        result: result,
-                    })
+                    message: 'Secured', 
+                    name: result,
+                    token: token,
+                })
             }
                 else{
                     res.status(401).json({
@@ -116,10 +126,9 @@ router.post('/login', (req, res) => {
     
 })
 
-router.get('/profile', (req, res) => {
-    res.status(200).json({
-        message: "/profile - GET",
-    })
+router.get('/profile',checkAuth, (req, res) => {
+    req.status(200).json({ 
+        message: req.userData})
 })
 
 
