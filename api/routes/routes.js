@@ -81,16 +81,18 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    const email = req.body.email
-    const password = req.body.password
-//----------------------------------------
     User.findOne({
-        email: email,
+        email: req.body.email,
     })
     .exec()
     .then(result => {
+//---------------------------------------------------------------
+    const email = result.email
+    const fName = result.fName
+    const password = result.password
         console.log("Console" , result.fName , "log");
-        bcrypt.compare(password, result.password,(err, result) => {
+//---------------------------------------------------------------
+        bcrypt.compare(req.body.password, password,(err, result) => {
             if (err){
                 res.status(501).json({
                     message: err.message,
@@ -98,11 +100,12 @@ router.post('/login', (req, res) => {
             }
             if (result){
                 const token = jwt.sign(
-                    {email: email, password: password}, 
+                    {email: email, 
+                    first_Name: fName}, 
                     process.env.jwt_key);
                 res.status(200).json({
                     message: 'Secured', 
-                    name: result,
+                    name: fName,
                     token: token,
                 })
             }
@@ -126,8 +129,8 @@ router.post('/login', (req, res) => {
     
 })
 
-router.get('/profile',checkAuth, (req, res) => {
-    req.status(200).json({ 
+router.get('/profile', checkAuth, (req, res, next) => {
+    res.status(200).json({ 
         message: req.userData})
 })
 
