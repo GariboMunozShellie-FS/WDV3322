@@ -28,8 +28,8 @@ router.post('/signup', (req, res) => {
             }
             else{
                 const newUser = new User({
-                    firstName:req.body.fName,
-                    lastName:req.body.lName,
+                    firstName:req.body.firstName,
+                    lastName:req.body.lastName,
                     address:req.body.address,
                     city:req.body.city,
                     state:req.body.state,
@@ -37,15 +37,15 @@ router.post('/signup', (req, res) => {
                     email: req.body.email,
                     password: hash
                 })
-                //newUser.save()
-                saveUser(newUser)
+                newUser.save()
+                //saveUser(newUser)
                 .then(result => {
-                    console.log("console.Log", result);
+                    console.log( result);
                     res.status(200).json({
                         message: "New User has been added",
                         User:{
-                            first_Name: result.fName,
-                            last_Name: result.lName,
+                            first_Name: result.firstName,
+                            last_Name: result.lastName,
                             address: result.address,
                             city: result.city,
                             state: result.state,
@@ -88,9 +88,9 @@ router.post('/login', (req, res) => {
     .then(result => {
 //---------------------------------------------------------------
     const email = result.email
-    const fName = result.fName
+    const firstName = result.firstName
     const password = result.password
-        console.log("Console" , result.fName , "log");
+        console.log("Console" , result.firstName , "log");
 //---------------------------------------------------------------
         bcrypt.compare(req.body.password, password,(err, result) => {
             if (err){
@@ -101,11 +101,11 @@ router.post('/login', (req, res) => {
             if (result){
                 const token = jwt.sign(
                     {email: email, 
-                    first_Name: fName}, 
+                    first_Name: firstName}, 
                     process.env.jwt_key);
                 res.status(200).json({
                     message: 'Secured', 
-                    name: fName,
+                    name: firstName,
                     token: token,
                 })
             }

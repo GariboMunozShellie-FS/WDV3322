@@ -10,8 +10,8 @@ beforeAll(async () => {
 describe("New User", () => {
     test('Save User', async () => {
         const user = new User({
-            fName: "Arama",
-            lName: "Munoz",
+            firstName: "Arama",
+            lastName: "Munoz",
             address:"Main ST",
             city:"Portland",
             state:"OR",
@@ -20,14 +20,14 @@ describe("New User", () => {
             password: "password"
         })
         saveUser(user)
-        expect(user.fName).toEqual("Arama");
-        expect(user.lName).toEqual("Munoz");
+        expect(user.firstName).toEqual("Arama");
+        expect(user.lastName).toEqual("Munoz");
     });
     
     test('Find User', async () => {
         findUser({email : "amaramunoz@gmail.com"})
-        expect(User.fName).toEqual("Arama");
-        expect(User.lName).toEqual("Munoz");
+        expect(User.firstName).toEqual("Arama");
+        expect(User.lastName).toEqual("Munoz");
     });
     
 })
