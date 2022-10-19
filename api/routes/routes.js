@@ -28,8 +28,8 @@ router.post('/signup', (req, res) => {
             }
             else{
                 const newUser = new User({
-                    fName:req.body.fName,
-                    lName:req.body.lName,
+                    firstName:req.body.fName,
+                    lastName:req.body.lName,
                     address:req.body.address,
                     city:req.body.city,
                     state:req.body.state,

@@ -27,7 +27,7 @@ app.get("/", (req, res, next) => {
     })
 });
 
-app.use("/user", routes)
+app.use("/users", routes)
 
 // Middleware to handle error and bad url
 
