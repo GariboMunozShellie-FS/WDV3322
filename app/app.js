@@ -1,6 +1,9 @@
 const express = require("express");
 const routes = require("../api/routes/routes");
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+//const swaggerJsDoc = require("swagger-jsdoc")
+const swaggerUi = require("swagger-ui-express")
+const swaggerDocs = require("../config/swaggerOptions")
 const app = express()
 
 require('dotenv').config();
@@ -28,6 +31,11 @@ app.get("/", (req, res, next) => {
 });
 
 app.use("/users", routes)
+
+// Middleware to create our Swagger
+
+console.log(swaggerDocs);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Middleware to handle error and bad url
 

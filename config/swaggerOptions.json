@@ -1,0 +1,172 @@
+{
+    "openapi" : "3.0.2",
+    "info": {
+        "title": "SignUp Doc",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Shellie Munoz",
+            "email": "srgaribomunoz@student.fullsail.edu"
+        }
+    },
+    "servers": [{
+        "url": "http://localhost:3001/users",
+        "description": "Local server"
+    }],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth":[]
+        }
+    ],
+    "paths": {
+        "/signup":{
+            "post":{
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Post - Create a new user",
+                "description": "Post - Create a new user to backend servers",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "firstName":{
+                                        "type": "string",
+                                        "default": "Billy"
+                                    },
+                                    "lastName":{
+                                        "type": "string",
+                                        "default": "Bob"
+                                    },
+                                    "address":{
+                                        "type": "string",
+                                        "default": "123 Main St"
+                                    },
+                                    "city":{
+                                        "type": "string",
+                                        "default": "Los Angeles"
+                                    },
+                                    "state":{
+                                        "type": "string",
+                                        "default": "CA"
+                                    },
+                                    "zip":{
+                                        "type": "string",
+                                        "default": "90048"
+                                    },
+                                    "email":{
+                                        "type": "string",
+                                        "default": "BillyBob@gmail.com"
+                                    },
+                                    "password":{
+                                        "type": "string",
+                                        "default": "Password123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success"
+                    },
+                    "201":{
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "NOT FOUND"
+                    },
+                    "500":{
+                        "description": "Unable to (POST) create new User"
+                    },
+                    "501":{
+                        "description": "Unable to (POST) create new User"
+                    }
+                }
+            }
+        },
+        "/login":{
+            "post":{
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Post - Login as user",
+                "description": "Post - login a user to backend servers",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "type": "string",
+                                        "default": "BillyBob@gmail.com"
+                                    },
+                                    "password":{
+                                        "type": "string",
+                                        "default": "Password123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success"
+                    },
+                    "201":{
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "NOT FOUND"
+                    },
+                    "500":{
+                        "description": "Unable to (POST) login User"
+                    },
+                    "501":{
+                        "description": "Unable to (POST) login User"
+                    }
+                }
+            }
+        },
+        "/profile":{
+            "get":{
+                "tags": [
+                    "Get"
+                ],
+                "summary": "Get - Receiving User Profile",
+                "description": "Get - Receiving User Profile from backend servers",
+                "responses": {
+                    "200":{
+                        "description": "Success"
+                    },
+                    "201":{
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "NOT FOUND"
+                    },
+                    "500":{
+                        "description": "Unable to (Get) find user profile"
+                    },
+                    "501":{
+                        "description": "Unable to (Get) find user profile"
+                    }
+                }
+            }
+        }
+    }
+
+}
